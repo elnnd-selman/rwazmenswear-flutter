@@ -18,7 +18,7 @@ class HomeProductsWidget extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.all(10),
           child: Text(
-            'Products',
+            'Latest Products',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
