@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laraflutter/ui/layouts/app_bar.dart';
+import 'package:laraflutter/ui/widgets/home/home_products_widget.dart';
 import 'package:laraflutter/ui/widgets/home/home_reks_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +14,8 @@ class HomePage extends StatelessWidget {
           body: Column(
             children: [
               const AppBarLayout(),
-              const HomeReksWidget()
+              const HomeReksWidget(),
+               HomeProductsWidget()
               // Obx(
               //   () => homeController.productData.value!.products == null
               //       ? const CircularProgressIndicator()
