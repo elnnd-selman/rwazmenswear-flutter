@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:laraflutter/application/controllers/home_controllers/home_controllers.dart';
 import 'package:laraflutter/application/models/blog_model.dart';
-import 'package:laraflutter/composables/calculate_discount.dart';
 import 'package:laraflutter/config/api.dart';
 
 class HomeBlogsWidget extends StatelessWidget {
@@ -16,11 +16,11 @@ class HomeBlogsWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(10),
+        Padding(
+          padding: EdgeInsets.all(10.w),
           child: Text(
             'Latest Blogs',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
           ),
         ),
         Obx(
@@ -29,7 +29,7 @@ class HomeBlogsWidget extends StatelessWidget {
             return blogs == null
                 ? const CircularProgressIndicator()
                 : SizedBox(
-                    height: 160,
+                    height: 160.w,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: blogs.length,
@@ -39,7 +39,7 @@ class HomeBlogsWidget extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: Container(
-                              width: 400,
+                              width: 400.w,
                               decoration:
                                   const BoxDecoration(color: Colors.white),
                               child: Row(
@@ -47,15 +47,15 @@ class HomeBlogsWidget extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
-                                      width: 150,
-                                      height: 220,
+                                      width: 150.w,
+                                      height: 220.w,
                                       child: Image.network(
                                         '${ApiConfig.baseUrlFile}storage/${blogs[index].image}',
                                         fit: BoxFit.cover,
                                       )),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(8.0.sp),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -65,13 +65,13 @@ class HomeBlogsWidget extends StatelessWidget {
                                           Text(
                                             blogs[index].nameEn!,
                                             maxLines: 2,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 overflow: TextOverflow.ellipsis,
-                                                fontSize: 16,
+                                                fontSize: 16.sp,
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          const SizedBox(
-                                            height: 5,
+                                          SizedBox(
+                                            height: 5.w,
                                           ),
                                           Text(
                                             blogs[index].contentEn!,
@@ -82,7 +82,7 @@ class HomeBlogsWidget extends StatelessWidget {
                                                 color: Colors.grey.shade700,
                                                 fontWeight: FontWeight.normal),
                                           ),
-                                          SizedBox(height: 10,),
+                                          SizedBox(height: 10.w),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -96,24 +96,27 @@ class HomeBlogsWidget extends StatelessWidget {
                                                 style: TextStyle(
                                                     overflow:
                                                         TextOverflow.ellipsis,
-                                                    fontSize: 14,
+                                                    fontSize: 10.sp,
                                                     color: Colors.grey.shade700,
                                                     fontWeight:
                                                         FontWeight.normal),
                                               ),
                                               Container(
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                      color: Colors.blue) ,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: Colors.blue),
                                                   padding: EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 5),
+                                                      horizontal: 10.w,
+                                                      vertical: 5.w),
                                                   child: Text(
                                                     'Read more ...',
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontWeight:
-                                                            FontWeight.bold),
+                                                            FontWeight.bold,
+                                                        fontSize: 12.sp),
                                                   ))
                                             ],
                                           )

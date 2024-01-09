@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:laraflutter/router/routes.dart';
 
@@ -12,13 +13,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Rwaz menswear',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
-        useMaterial3: true,
-      ),
-      getPages: appRoutes,
-    );
+    return ScreenUtilInit(
+        designSize: const Size(430, 932),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        // Use builder only if you need to use library outside ScreenUtilInit context
+        builder: (_, child) {
+          return GetMaterialApp(
+            title: 'Rwaz menswear',
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: const Color(0x0fc39967)),
+              useMaterial3: true,
+            ),
+            getPages: appRoutes,
+          );
+        });
   }
 }

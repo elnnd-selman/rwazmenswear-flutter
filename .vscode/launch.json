@@ -1,0 +1,49 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "rwazmenswear-flutter-1",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "rwazmenswear-flutter-1",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "rwazmenswear-flutter-1 (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "rwazmenswear-flutter-1 (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "android",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554"
+        },
+        {
+            "name": "iphone",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "D0992FBD-7D3E-410F-96FE-E6F1E279A5CB"
+        },
+        
+    ],
+    "compounds": [
+        {
+            "name": "android and iphone",
+            "configurations": ["android", "iphone"],
+        }
+    ]
+}

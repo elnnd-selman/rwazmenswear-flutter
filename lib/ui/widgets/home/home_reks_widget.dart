@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:laraflutter/application/controllers/home_controllers/home_controllers.dart';
 import 'package:laraflutter/config/api.dart';
@@ -27,7 +28,7 @@ class _RekWidgetsState extends State<HomeReksWidget> {
               ? []
               : homeController.rekData.value!.data!
                   .map((item) => ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.sp),
                       child: Image.network(
                         '${ApiConfig.baseUrlFile}storage/${item.image}',
                         fit: BoxFit.cover,
@@ -39,7 +40,7 @@ class _RekWidgetsState extends State<HomeReksWidget> {
             carouselController: carouselController,
             options: CarouselOptions(
                 autoPlay: true,
-                aspectRatio: 2.0,
+                aspectRatio: 2.0.sp,
                 enlargeCenterPage: true,
                 onPageChanged: (index, reason) {
                   setState(() {
@@ -54,12 +55,12 @@ class _RekWidgetsState extends State<HomeReksWidget> {
               return GestureDetector(
                 onTap: () => carouselController.animateToPage(entry.key),
                 child: Container(
-                  width: current == entry.key ? 36.0 : 12.0,
-                  height: 10.0,
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 4.0),
+                  width: current == entry.key ? 36.0.w : 12.0.w,
+                  height: 10.0.w,
+                  margin:
+                      EdgeInsets.symmetric(vertical: 8.0.w, horizontal: 4.0.w),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
+                      borderRadius: BorderRadius.circular(100.sp),
                       color: current != entry.key
                           ? Colors.grey.shade300
                           : Theme.of(context).primaryColor),
