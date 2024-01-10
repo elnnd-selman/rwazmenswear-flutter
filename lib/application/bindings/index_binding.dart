@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:laraflutter/application/controllers/home_controllers/index_controller.dart';
+import 'package:laraflutter/application/controllers/index_controller.dart';
 
 class IndexBinding implements Bindings {
   @override

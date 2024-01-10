@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laraflutter/application/controllers/home_controllers/index_controller.dart';
+import 'package:laraflutter/application/controllers/index_controller.dart';
 import 'package:laraflutter/constant/colors.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {

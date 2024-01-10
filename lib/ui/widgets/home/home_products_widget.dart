@@ -51,9 +51,13 @@ class HomeProductsWidget extends StatelessWidget {
                                     SizedBox(
                                         width: 220.w,
                                         height: 220.w,
-                                        child: Image.network(
-                                          '${ApiConfig.baseUrlFile}storage/${products[index].images![0]}',
-                                          fit: BoxFit.cover,
+                                        child: ClipRRect(
+                                                                    borderRadius: BorderRadius.circular(10.sp),
+
+                                          child: Image.network(
+                                            '${ApiConfig.baseUrlFile}storage/${products[index].images![0]}',
+                                            fit: BoxFit.cover,
+                                          ),
                                         )),
                                     double.parse(products[index].discount!) < 1
                                         ? const SizedBox()
