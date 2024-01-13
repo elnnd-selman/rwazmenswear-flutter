@@ -106,7 +106,7 @@ class CategoryModel {
     final String? nameKu;
     final DateTime? createdAt;
     final DateTime? updatedAt;
-    final List<Subcategory>? subcategories;
+    final List<SubcategoryModel>? subcategories;
 
     CategoryModel({
         this.id,
@@ -125,7 +125,7 @@ class CategoryModel {
         String? nameKu,
         DateTime? createdAt,
         DateTime? updatedAt,
-        List<Subcategory>? subcategories,
+        List<SubcategoryModel>? subcategories,
     }) => 
         CategoryModel(
             id: id ?? this.id,
@@ -148,7 +148,7 @@ class CategoryModel {
         nameKu: json["name_ku"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        subcategories: json["subcategories"] == null ? [] : List<Subcategory>.from(json["subcategories"]!.map((x) => Subcategory.fromJson(x))),
+        subcategories: json["subcategories"] == null ? [] : List<SubcategoryModel>.from(json["subcategories"]!.map((x) => SubcategoryModel.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -162,7 +162,7 @@ class CategoryModel {
     };
 }
 
-class Subcategory {
+class SubcategoryModel {
     final int? id;
     final int? categoryId;
     final String? nameEn;
@@ -173,7 +173,7 @@ class Subcategory {
     final DateTime? createdAt;
     final DateTime? updatedAt;
 
-    Subcategory({
+    SubcategoryModel({
         this.id,
         this.categoryId,
         this.nameEn,
@@ -185,7 +185,7 @@ class Subcategory {
         this.updatedAt,
     });
 
-    Subcategory copyWith({
+    SubcategoryModel copyWith({
         int? id,
         int? categoryId,
         String? nameEn,
@@ -196,7 +196,7 @@ class Subcategory {
         DateTime? createdAt,
         DateTime? updatedAt,
     }) => 
-        Subcategory(
+        SubcategoryModel(
             id: id ?? this.id,
             categoryId: categoryId ?? this.categoryId,
             nameEn: nameEn ?? this.nameEn,
@@ -208,11 +208,11 @@ class Subcategory {
             updatedAt: updatedAt ?? this.updatedAt,
         );
 
-    factory Subcategory.fromRawJson(String str) => Subcategory.fromJson(json.decode(str));
+    factory SubcategoryModel.fromRawJson(String str) => SubcategoryModel.fromJson(json.decode(str));
 
     String toRawJson() => json.encode(toJson());
 
-    factory Subcategory.fromJson(Map<String, dynamic> json) => Subcategory(
+    factory SubcategoryModel.fromJson(Map<String, dynamic> json) => SubcategoryModel(
         id: json["id"],
         categoryId: json["category_id"],
         nameEn: json["name_en"],

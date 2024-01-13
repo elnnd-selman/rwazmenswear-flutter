@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraflutter/application/models/brand_model.dart';
@@ -13,7 +11,11 @@ class ProductController extends GetxController {
   var productsNextPageIsLoading = false.obs;
 
   Rx<dynamic> selectedCategoryId = ''.obs;
+  Rx<dynamic> selectedSubCategoryId = ''.obs;
+
   Rx<dynamic> selectedBrandId = ''.obs;
+
+  Rx<CategoryModel> selectedCategory = CategoryModel().obs;
 
   var page = 1.obs;
 
@@ -21,10 +23,14 @@ class ProductController extends GetxController {
 
 //PRODUCT
   Rx<ProductDataModel> productData = ProductDataModel().obs;
-  productIndex({String? categoryId, String? page, String? brandId}) async {
+  productIndex(
+      {String? categoryId,
+      String? page,
+      String? brandId,
+      String? subCategoryId}) async {
     var response = await ApiConfig(
             url:
-                'productapi?${page != null ? 'page=$page' : 'page=1'}${categoryId != null ? '&category_id=$categoryId' : ""}${brandId != null ? "&brand_id=$brandId" : ""}')
+                'productapi?${page != null ? 'page=$page' : 'page=1'}${categoryId != null ? '&category_id=$categoryId' : ""}${subCategoryId != null ? '&subcategory_id=$subCategoryId' : ""}${brandId != null ? "&brand_id=$brandId" : ""}')
         .get();
 
     productData.value =
@@ -49,11 +55,15 @@ class ProductController extends GetxController {
     page.value = 1;
     productsIsLoading.value = true;
     selectedBrandId.value = brandId ?? "";
-    productIndex(brandId: brandId,categoryId: selectedCategoryId.value,page: page.value.toString());
+    productIndex(
+        brandId: brandId,
+        categoryId: selectedCategoryId.value,
+        page: page.value.toString());
   }
 
   //PAGINATE PRODUCT
-  paginateProductIndex({String? categoryId, String? page,String?brandId}) async {
+  paginateProductIndex(
+      {String? categoryId, String? page, String? brandId}) async {
     var response = await ApiConfig(
             url:
                 'productapi?${page != null ? 'page=$page' : 'page=1'}&${categoryId != null && selectedCategoryId.value.length > 0 ? 'category_id=$categoryId' : ""}${brandId != null ? "&brand_id=$brandId" : ""}')
@@ -74,17 +84,36 @@ class ProductController extends GetxController {
         CategoryDataModel.fromJson(response.data as Map<String, dynamic>);
   }
 
-  onCategoryChange(String? categoryId) {
+  onSubCategoryChange(
+    SubcategoryModel? subcategory,
+  ) {
     page.value = 1;
     productsIsLoading.value = true;
-    selectedCategoryId.value = categoryId ?? "";
-    productIndex(categoryId: categoryId,brandId: selectedBrandId.value);
+    selectedSubCategoryId.value =
+        subcategory != null ? subcategory.id.toString() : "";
+    productIndex(
+        categoryId: selectedCategoryId.value,
+        brandId: selectedBrandId.value,
+        subCategoryId: selectedSubCategoryId.value);
+  }
+
+  onCategoryChange(
+    CategoryModel? category,
+  ) {
+    page.value = 1;
+    productsIsLoading.value = true;
+    selectedCategoryId.value = category != null ? category.id.toString() : "";
+    selectedCategory.value = category ?? CategoryModel();
+    productIndex(
+        categoryId: selectedCategoryId.value, brandId: selectedBrandId.value);
   }
 
   onPageChange() {
     page.value += 1;
     paginateProductIndex(
-        categoryId: selectedCategoryId.value, page: page.value.toString(),brandId:selectedBrandId.value);
+        categoryId: selectedCategoryId.value,
+        page: page.value.toString(),
+        brandId: selectedBrandId.value);
   }
 
   @override

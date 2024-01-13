@@ -5,49 +5,50 @@ import 'package:laraflutter/application/controllers/product_controllers/product_
 import 'package:laraflutter/application/models/category_model.dart';
 import 'package:laraflutter/constant/colors.dart';
 
-class ProductCategoriesWidget extends StatelessWidget {
-  const ProductCategoriesWidget({super.key});
+class ProductSubCategoriesWidget extends StatelessWidget {
+  const ProductSubCategoriesWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     ProductController productController = Get.find();
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 30.w,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          child: Text(
-            'Collections',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 20.w),
-          child: Obx(
-            () => SizedBox(
-              width: double.infinity,
-              height: 30.w,
-              child: productController.categoryData.value.data == null
-                  ? const CircularProgressIndicator()
-                  : ListView(
+    return Obx(() => productController.selectedCategory.value.subcategories ==
+            null
+        ? const SizedBox()
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+                SizedBox(
+                  height: 30.w,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  child: Text(
+                    'Categories',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.w),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 30.w,
+                    child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: [
                         Obx(() => Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10.w),
                               child: InkWell(
                                 onTap: () {
-                                  productController.onCategoryChange(null);
+                                  productController.onSubCategoryChange(null);
                                 },
                                 child: Container(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 10.w),
                                   decoration: BoxDecoration(
                                       color: productController
-                                                  .selectedCategoryId.value ==
+                                                  .selectedSubCategoryId.value ==
                                               ""
                                           ? AppColors.primary
                                           : Colors.grey.shade200,
@@ -58,7 +59,7 @@ class ProductCategoriesWidget extends StatelessWidget {
                                       "All",
                                       style: TextStyle(
                                           color: productController
-                                                      .selectedCategoryId
+                                                      .selectedSubCategoryId
                                                       .value ==
                                                   ""
                                               ? Colors.white
@@ -69,24 +70,25 @@ class ProductCategoriesWidget extends StatelessWidget {
                               ),
                             )),
                         ...List.generate(
-                            productController.categoryData.value.data!.length,
-                            (index) {
-                          CategoryModel category =
-                              productController.categoryData.value.data![index];
+                            productController.selectedCategory.value
+                                .subcategories!.length, (index) {
+                          SubcategoryModel subcategory = productController
+                              .selectedCategory.value.subcategories![index];
                           return Obx(
                             () => Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10.w),
                               child: InkWell(
                                 onTap: () {
-                                  productController.onCategoryChange(category);
+                                  productController
+                                      .onSubCategoryChange(subcategory);
                                 },
                                 child: Container(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 10.w),
                                   decoration: BoxDecoration(
-                                      color: category.id!.toString() ==
+                                      color: subcategory.id!.toString() ==
                                               productController
-                                                  .selectedCategoryId
+                                                  .selectedSubCategoryId
                                                   .toString()
                                           ? AppColors.primary
                                           : Colors.grey.shade200,
@@ -94,11 +96,11 @@ class ProductCategoriesWidget extends StatelessWidget {
                                           BorderRadius.circular(7.sp)),
                                   child: Center(
                                     child: Text(
-                                      category.nameEn!,
+                                      subcategory.nameEn!,
                                       style: TextStyle(
-                                          color: category.id!.toString() ==
+                                          color: subcategory.id!.toString() ==
                                                   productController
-                                                      .selectedCategoryId
+                                                      .selectedSubCategoryId
                                                       .toString()
                                               ? Colors.white
                                               : Colors.grey),
@@ -111,10 +113,8 @@ class ProductCategoriesWidget extends StatelessWidget {
                         }).toList()
                       ],
                     ),
-            ),
-          ),
-        ),
-      ],
-    );
+                  ),
+                ),
+              ]));
   }
 }

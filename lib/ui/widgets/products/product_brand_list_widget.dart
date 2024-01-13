@@ -17,13 +17,15 @@ class ProductBrandListWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-                SizedBox(
+        SizedBox(
           height: 30.w,
         ),
-
         Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 10.w),
-          child:  Text('Brands',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16.sp),),
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: Text(
+            'Brands',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+          ),
         ),
         Obx(() => productController.brandData.value.data == null
             ? const CircularProgressIndicator()
@@ -34,7 +36,7 @@ class ProductBrandListWidget extends StatelessWidget {
                   children: [
                     SizedBox(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20.w, top: 20.w),
+                        padding: EdgeInsets.only(left: 10.w, top: 20.w),
                         child: Obx(
                           () => InkWell(
                             onTap: () {
@@ -46,12 +48,13 @@ class ProductBrandListWidget extends StatelessWidget {
                                   width: 40.w,
                                   height: 40.w,
                                   decoration: BoxDecoration(
-                                      color:
-                                          productController.selectedBrandId.value !=
-                                                  ''
-                                              ? Colors.white
-                                              : AppColors.primary,
-                                      borderRadius: BorderRadius.circular(100.sp),
+                                      color: productController
+                                                  .selectedBrandId.value !=
+                                              ''
+                                          ? Colors.white
+                                          : AppColors.primary,
+                                      borderRadius:
+                                          BorderRadius.circular(100.sp),
                                       border: Border.all(
                                           width: 1, color: AppColors.primary)),
                                   child: ClipRRect(
@@ -74,16 +77,16 @@ class ProductBrandListWidget extends StatelessWidget {
                                 Text(
                                   'All brands',
                                   style: TextStyle(
-                                      color:
-                                          productController.selectedBrandId.value ==
-                                                  ""
-                                              ? AppColors.primary
-                                              : Colors.grey,
-                                      fontSize:
-                                          productController.selectedBrandId.value ==
-                                                  ""
-                                              ? 12.sp
-                                              : 12.sp,
+                                      color: productController
+                                                  .selectedBrandId.value ==
+                                              ""
+                                          ? AppColors.primary
+                                          : Colors.grey,
+                                      fontSize: productController
+                                                  .selectedBrandId.value ==
+                                              ""
+                                          ? 12.sp
+                                          : 12.sp,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -92,7 +95,8 @@ class ProductBrandListWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ...List.generate(productController.brandData.value.data!.length,
+                    ...List.generate(
+                        productController.brandData.value.data!.length,
                         (index) {
                       List<BrandModel> brands =
                           productController.brandData.value.data!;
@@ -112,15 +116,18 @@ class ProductBrandListWidget extends StatelessWidget {
                                     width: 40.w,
                                     height: 40.w,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(100.sp),
+                                        borderRadius:
+                                            BorderRadius.circular(100.sp),
                                         border: productController
                                                     .selectedBrandId.value ==
                                                 brand.id.toString()
                                             ? Border.all(
-                                                width: 3, color: AppColors.primary)
+                                                width: 3,
+                                                color: AppColors.primary)
                                             : null),
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100.sp),
+                                      borderRadius:
+                                          BorderRadius.circular(100.sp),
                                       child: Image.network(
                                         '${ApiConfig.baseUrlFile}storage/${brand.image!}',
                                         fit: BoxFit.cover,
