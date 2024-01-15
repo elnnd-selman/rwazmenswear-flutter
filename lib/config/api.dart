@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:print_color/print_color.dart';
+import 'package:get_storage/get_storage.dart';
 
 final options = CacheOptions(
   store: MemCacheStore(),
@@ -21,12 +22,11 @@ class ApiConfig {
   });
 
   static const isLocale = false;
-  static const isHttps = false;
+  static const isHttps = true;
 
   static const domain = isLocale ? '10.0.2.2:8000' : 'rwazmenswear.com';
   static const baseUrl = "${isHttps ? 'https://' : 'http://'}$domain/api/";
-  static const baseUrlFile =
-      "${isHttps ? 'https://' : 'http://'}$domain/";
+  static const baseUrlFile = "${isHttps ? 'https://' : 'http://'}$domain/";
 
   Future<Response<dynamic>> get({
     Map? data,
@@ -65,6 +65,30 @@ class ApiConfig {
           '----------------------------------------------------------------');
 
       return e.response!;
+    }
+  }
+
+  Future<Response<dynamic>> post(
+      {Map<String, dynamic>? data, Map<String, dynamic>? params}) async {
+    Print.green('POST_DATA:$data');
+    try {
+      final response = await dio.post("$baseUrl$url",
+          data: data,
+          queryParameters: params,
+          options: Options(
+            headers: {
+              "Accept": "application/json",
+              "Contnet-Type": "application/json",
+            },
+          ));
+
+      Print.yellow(
+        "POST : $baseUrl$url",
+      );
+
+      return response;
+    } on DioException {
+      rethrow;
     }
   }
 }
