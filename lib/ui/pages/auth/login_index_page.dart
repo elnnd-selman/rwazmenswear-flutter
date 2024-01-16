@@ -5,7 +5,7 @@ import 'package:laraflutter/application/controllers/auth_controllers.dart/login_
 import 'package:laraflutter/constant/colors.dart';
 import 'package:laraflutter/constant/images.dart';
 import 'package:laraflutter/ui/widgets/home/full_button_widget.dart';
-import 'package:laraflutter/ui/widgets/home/text_field_widget.dart';
+import 'package:laraflutter/ui/widgets/text_field_widget.dart';
 
 class LoginIndexPage extends StatelessWidget {
   const LoginIndexPage({super.key});

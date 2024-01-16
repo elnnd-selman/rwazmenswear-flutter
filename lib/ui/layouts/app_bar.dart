@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:laraflutter/constant/images.dart';
 
 class AppBarLayout extends StatelessWidget {
@@ -8,12 +9,13 @@ class AppBarLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-    
       width: double.infinity,
       height: 75.w,
-      decoration: BoxDecoration(color: Colors.grey.shade200,),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+      ),
       child: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 20.w,vertical: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.w),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -27,7 +29,7 @@ class AppBarLayout extends StatelessWidget {
                     AppImages.logo,
                   ),
                 ),
-                 SizedBox(
+                SizedBox(
                   width: 10.w,
                 ),
                 Column(
@@ -36,19 +38,26 @@ class AppBarLayout extends StatelessWidget {
                   children: [
                     Text(
                       'RWAZ MENSWEAR',
-                      style: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 12.sp, fontWeight: FontWeight.bold),
                     ),
-                     Text(
+                    Text(
                       'Discover Elegance, Redefine Your Style.',
                       style: TextStyle(fontSize: 10.sp),
                     ),
-                    
                   ],
                 )
-                 
               ],
             ),
-             Icon(Icons.account_circle_outlined ,color: Colors.grey.shade400,)
+            IconButton(
+              icon: Icon(
+                Icons.account_circle_outlined,
+                color: Colors.grey.shade400,
+              ),
+              onPressed: () {
+                Get.toNamed('/profile');
+              },
+            )
           ],
         ),
       ),

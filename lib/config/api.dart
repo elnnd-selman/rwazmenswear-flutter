@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:print_color/print_color.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:laraflutter/config/string_constant.dart';
+import 'package:print_color/print_color.dart';
 
 final options = CacheOptions(
   store: MemCacheStore(),
@@ -36,6 +37,8 @@ class ApiConfig {
       final response = await dio.get(
         "$baseUrl$url",
         options: Options(headers: {
+          'authorization':
+              "Bearer ${GetStorage().read(AppStringConstant.accessToken)}",
           'accept': 'application/json',
           'Content-Type': 'application/json',
           'Connection': 'Keep-Alive'
@@ -79,6 +82,8 @@ class ApiConfig {
             headers: {
               "Accept": "application/json",
               "Contnet-Type": "application/json",
+              'authorization':
+                  "Bearer ${GetStorage().read(AppStringConstant.accessToken)}",
             },
           ));
 

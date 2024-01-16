@@ -31,7 +31,7 @@ dynamic errorHandle(dynamic responseData) {
           .toString()
           .contains('The provided credentials are incorrect.')) {
         Get.snackbar(
-            "Some thing went wrong!", 'Email or Password are incurect');
+            "Some thing went wrong!", 'Email or Password are incorrect?');
 
         return;
       }

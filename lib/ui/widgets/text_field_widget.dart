@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 class TextFieldWidget extends StatelessWidget {
   final String hintText;
   final Widget? prefixIcon;
   final bool? obscureText;
+  final bool? enabled;
+
   final Widget? suffixIcon;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -21,11 +22,12 @@ class TextFieldWidget extends StatelessWidget {
     this.validator,
     this.onSave,
     this.suffixIcon,
-     this.obscureText,
+    this.obscureText,
     this.controller,
-     this.keyboardType,
+    this.keyboardType,
     this.label,
     this.onChange,
+    this.enabled,
   });
 
   @override
@@ -33,10 +35,11 @@ class TextFieldWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5.w),
       child: TextFormField(
+          enabled: enabled,
           controller: controller,
           style: TextStyle(fontSize: 12.sp, color: Colors.black),
-          obscureText: obscureText??false,
-          keyboardType: keyboardType??TextInputType.text,
+          obscureText: obscureText ?? false,
+          keyboardType: keyboardType ?? TextInputType.text,
           onChanged: onChange,
           decoration: InputDecoration(
             label: label,

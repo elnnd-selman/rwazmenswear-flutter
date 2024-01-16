@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:laraflutter/application/controllers/product_controllers/product_controllers.dart';
 import 'package:laraflutter/application/models/product_model.dart';
@@ -23,7 +22,8 @@ class ProductGridWidget extends StatelessWidget {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // number of items in each row
                   mainAxisSpacing: 10.0, // spacing between rows
-                  childAspectRatio: (5 / 8.2).w,
+                  childAspectRatio: MediaQuery.of(context).size.width /
+                      (MediaQuery.of(context).size.height / 1.25),
                   crossAxisSpacing: 10, // spacing between columns
                 ),
                 itemCount: productController.productData.value.data!.length,
@@ -36,7 +36,6 @@ class ProductGridWidget extends StatelessWidget {
               Obx(() => productController.productsNextPageIsLoading.isTrue
                   ? const CircularProgressIndicator()
                   : const SizedBox())
-              
             ]),
           ));
   }

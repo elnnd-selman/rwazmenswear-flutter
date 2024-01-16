@@ -10,38 +10,28 @@ import 'package:print_color/print_color.dart';
 
 class LoginController extends GetxController {
   TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  var loginInformations = LoginResponseModel().obs;
 
   var validationErrors = {}.obs;
   var visiblePassword = true.obs;
-  var loginButtonLoading = false.obs;
+  var sendEmailButtonLoading = false.obs;
 
-  Future handleLogin() async {
-    if (loginButtonLoading.value) {
+  Future handleSendEmail() async {
+    if (sendEmailButtonLoading.value) {
       return;
     }
 
-    loginButtonLoading.value = true;
+    sendEmailButtonLoading.value = true;
     try {
-      var data = await ApiConfig(url: 'login')
-          .post(data: {'email': email.text, 'password': password.text});
-      LoginResponseModel loginData =
-          LoginResponseModel.fromJson(data.data as Map<String, dynamic>);
-      loginInformations.value = loginData;
-      if (loginData.user != null) {
-        GetStorage().write(AppStringConstant.user, loginData.user!.toJson());
-        GetStorage()
-            .write(AppStringConstant.accessToken, loginData.accessToken!);
-        loginButtonLoading.value = false;
+      var response = await ApiConfig(url: 'forgot-password').post(data: {
+        'email': email.text,
+      });
 
-        Get.offAndToNamed('/');
-      }
+      Print.green(response.data);
     } on DioException catch (e) {
       Print.green(e.response);
       var error = errorHandle(e.response!.data);
       if (error != null) validationErrors.value = error as Map;
-      loginButtonLoading.value = false;
+      sendEmailButtonLoading.value = false;
     }
   }
 
