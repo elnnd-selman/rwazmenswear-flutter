@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:print_color/print_color.dart';
 
 dynamic errorHandle(dynamic responseData) {
   Map<String, String> validationErrors = {};
@@ -13,9 +12,8 @@ dynamic errorHandle(dynamic responseData) {
         if (value is List && value.isNotEmpty) {
           // Check if the error message contains 'is required'
           String firstErrorMessage = value.first;
-          if (firstErrorMessage.contains('is required')) {
             validationErrors[key] = firstErrorMessage;
-          }
+          
         }
       });
     }

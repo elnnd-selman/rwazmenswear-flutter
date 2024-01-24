@@ -43,17 +43,17 @@ class AppBottomNavigationBar extends StatelessWidget {
                 indexController.onPageChanged(2);
               },
               icon: indexController.currentPage.value == 2
-                  ? Icon(Icons.local_mall, color: AppColors.primary)
-                  : const Icon(Icons.local_mall_outlined),
+                  ? Icon(Icons.shopping_bag, color: AppColors.primary)
+                  : const Icon(Icons.shopping_bag_outlined),
             ),
-            IconButton(
-              onPressed: () {
-                indexController.onPageChanged(3);
-              },
-              icon: indexController.currentPage.value == 3
-                  ? Icon(Icons.shopping_cart, color: AppColors.primary)
-                  : const Icon(Icons.shopping_cart_outlined),
-            ),
+            // IconButton(
+            //   onPressed: () {
+            //     indexController.onPageChanged(3);
+            //   },
+            //   icon: indexController.currentPage.value == 3
+            //       ? Icon(Icons.shopping_cart, color: AppColors.primary)
+            //       : const Icon(Icons.shopping_cart_outlined),
+            // ),
           ],
         ),
       ),

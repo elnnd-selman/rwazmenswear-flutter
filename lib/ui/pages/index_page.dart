@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:laraflutter/application/controllers/index_controller.dart';
 import 'package:laraflutter/ui/layouts/app_bar.dart';
 import 'package:laraflutter/ui/layouts/app_bottom_navigationbar.dart';
+import 'package:laraflutter/ui/pages/cart/cart_index_page.dart';
 import 'package:laraflutter/ui/pages/home/home_index_page.dart';
 import 'package:laraflutter/ui/pages/products/product_index_page.dart';
 
@@ -23,8 +24,7 @@ class IndexPage extends StatelessWidget {
               children: const [
                 HomeIndexPage(),
                 ProductsIndexPage(),
-                HomeIndexPage(),
-                HomeIndexPage()
+                CartIndexPage(),
               ],
             ),
           ),

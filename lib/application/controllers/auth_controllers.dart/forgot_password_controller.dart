@@ -1,18 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:laraflutter/application/models/login_response_model.dart';
 import 'package:laraflutter/composables/error_handle.dart';
 import 'package:laraflutter/config/api.dart';
-import 'package:laraflutter/config/string_constant.dart';
 import 'package:print_color/print_color.dart';
 
-class LoginController extends GetxController {
+class ForgotPasswordController extends GetxController {
   TextEditingController email = TextEditingController();
 
+  var message = ''.obs;
   var validationErrors = {}.obs;
-  var visiblePassword = true.obs;
   var sendEmailButtonLoading = false.obs;
 
   Future handleSendEmail() async {
@@ -26,7 +23,8 @@ class LoginController extends GetxController {
         'email': email.text,
       });
 
-      Print.green(response.data);
+      message.value = response.data['message'].toString();
+      sendEmailButtonLoading.value = false;
     } on DioException catch (e) {
       Print.green(e.response);
       var error = errorHandle(e.response!.data);

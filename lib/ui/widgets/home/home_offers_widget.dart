@@ -54,17 +54,75 @@ class HomeOffersWidget extends StatelessWidget {
                                     color: Colors.grey.shade300),
                                 maxLines: 2,
                               ),
-                              Container(
-                                padding: EdgeInsets.all(7.w),
-                                decoration:
-                                    const BoxDecoration(color: Colors.amber),
-                                child: Text(
-                                  'Read More',
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.grey.shade900),
-                                  maxLines: 2,
+                              InkWell(
+                                onTap: () {
+                                  Get.dialog(Scaffold(
+                                    body: Container(
+                                      decoration:
+                                          // ignore: prefer_const_constructors
+                                          BoxDecoration(color: Colors.white),
+                                      width: double.infinity,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(20.0.w),
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        Get.back();
+                                                      },
+                                                      icon:
+                                                          const Icon(Icons.close))
+                                                ],
+                                              ),
+                                              ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.sp),
+                                                  child: Image.network(
+                                                    '${ApiConfig.baseUrlFile}/storage/${offer.image!}',
+                                                  )),
+                                                    SizedBox(
+                                                height: 20.w,
+                                              ),
+                                              Text(
+                                                offer.nameEn!,
+                                                style:  TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.w),
+                                              ),
+                                              SizedBox(
+                                                height: 20.w,
+                                              ),
+                                              Text(
+                                                offer.contentEn!,
+                                                style: TextStyle(
+                                                    color: Colors.grey.shade700,
+                                                    fontWeight: FontWeight.normal,
+                                                    fontSize: 14.w),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ));
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(7.w),
+                                  decoration:
+                                      const BoxDecoration(color: Colors.amber),
+                                  child: Text(
+                                    'Read More',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.grey.shade900),
+                                    maxLines: 2,
+                                  ),
                                 ),
                               )
                             ],

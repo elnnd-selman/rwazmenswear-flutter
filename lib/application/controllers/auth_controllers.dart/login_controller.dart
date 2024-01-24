@@ -26,6 +26,7 @@ class LoginController extends GetxController {
     try {
       var data = await ApiConfig(url: 'login')
           .post(data: {'email': email.text, 'password': password.text});
+      Print.yellow(data.data);
       LoginResponseModel loginData =
           LoginResponseModel.fromJson(data.data as Map<String, dynamic>);
       loginInformations.value = loginData;
@@ -33,6 +34,7 @@ class LoginController extends GetxController {
         GetStorage().write(AppStringConstant.user, loginData.user!.toJson());
         GetStorage()
             .write(AppStringConstant.accessToken, loginData.accessToken!);
+
         loginButtonLoading.value = false;
 
         Get.offAndToNamed('/');

@@ -8,7 +8,7 @@ void main() async {
   await GetStorage.init();
 
   runApp(const MyApp());
-}
+} 
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,20 +17,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(430, 932),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        // Use builder only if you need to use library outside ScreenUtilInit context
-        builder: (_, child) {
-          return GetMaterialApp(
-            title: 'Rwaz menswear',
-            theme: ThemeData(
-              colorScheme:
-                  ColorScheme.fromSeed(seedColor: const Color(0x0fc39967)),
-              useMaterial3: true,
-            ),
-            getPages: appRoutes,
-          );
-        });
+      designSize: const Size(430, 932),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      // Use builder only if you need to use library outside ScreenUtilInit context
+      builder: (_, child) {
+        return GetMaterialApp(
+          title: 'Rwaz menswear',
+          theme: ThemeData(
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0x0fc39967)),
+            useMaterial3: true,
+          ),
+          getPages: appRoutes,
+        );
+      },
+    );
   }
 }

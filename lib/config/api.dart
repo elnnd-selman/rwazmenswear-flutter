@@ -37,11 +37,12 @@ class ApiConfig {
       final response = await dio.get(
         "$baseUrl$url",
         options: Options(headers: {
-          'authorization':
-              "Bearer ${GetStorage().read(AppStringConstant.accessToken)}",
-          'accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Connection': 'Keep-Alive'
+       
+              "Accept": "application/json",
+              "Contnet-Type": "application/json",
+              'authorization':
+                  "Bearer ${GetStorage().read(AppStringConstant.accessToken)}",
+          
         }),
         data: data,
       );
@@ -76,6 +77,34 @@ class ApiConfig {
     Print.green('POST_DATA:$data');
     try {
       final response = await dio.post("$baseUrl$url",
+          data: data,
+          queryParameters: params,
+          options: Options(
+            headers: {
+              "Accept": "application/json",
+              "Contnet-Type": "application/json",
+              'authorization':
+                  "Bearer ${GetStorage().read(AppStringConstant.accessToken)}",
+            },
+          ));
+
+      Print.yellow(
+        "POST : $baseUrl$url",
+      );
+
+      return response;
+    } on DioException {
+      rethrow;
+    }
+  }
+
+
+
+  Future<Response<dynamic>> patch(
+      {Map<String, dynamic>? data, Map<String, dynamic>? params}) async {
+    Print.green('POST_DATA:$data');
+    try {
+      final response = await dio.patch("$baseUrl$url",
           data: data,
           queryParameters: params,
           options: Options(

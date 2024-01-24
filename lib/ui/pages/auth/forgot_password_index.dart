@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
+import 'package:laraflutter/application/controllers/auth_controllers.dart/forgot_password_controller.dart';
 import 'package:laraflutter/application/controllers/auth_controllers.dart/login_controller.dart';
 import 'package:laraflutter/constant/colors.dart';
 import 'package:laraflutter/constant/images.dart';
 import 'package:laraflutter/ui/widgets/home/full_button_widget.dart';
 import 'package:laraflutter/ui/widgets/text_field_widget.dart';
 
-class LoginIndexPage extends StatelessWidget {
-  const LoginIndexPage({super.key});
+class ForgotPasswordIndexPage extends StatelessWidget {
+  const ForgotPasswordIndexPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    LoginController loginController = LoginController();
+    ForgotPasswordController forgotPasswordController =
+        ForgotPasswordController();
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -41,14 +43,15 @@ class LoginIndexPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Sign In',
+                        'Forgot Password',
                         style: TextStyle(
-                            color: AppColors.primary,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
+                          color: AppColors.primary,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const Text(
-                        'Sign In - Your ultimate shopping adventure awaits',
+                        'Enter your email address to send reset password link',
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],
@@ -70,88 +73,59 @@ class LoginIndexPage extends StatelessWidget {
                     TextFieldWidget(
                       hintText: 'Email',
                       keyboardType: TextInputType.emailAddress,
-                      controller: loginController.email,
+                      controller: forgotPasswordController.email,
                     ),
                     Obx(
-                      () => loginController.validationErrors['email'] != null
+                      () => forgotPasswordController
+                                  .validationErrors['email'] !=
+                              null
                           ? Text(
-                              loginController.validationErrors['email']
+                              forgotPasswordController.validationErrors['email']
                                   .toString(),
                               style:
                                   TextStyle(color: Colors.red, fontSize: 14.sp),
+                            )
+                          : const SizedBox(),
+                    ),
+                    Obx(
+                      () => forgotPasswordController.message.value.isNotEmpty
+                          ? Text(
+                              forgotPasswordController.message.value.toString(),
+                              style: TextStyle(
+                                  color: Colors.green, fontSize: 14.sp),
                             )
                           : const SizedBox(),
                     ),
                     SizedBox(
                       height: 30.w,
                     ),
-                    const Text(
-                      'Password',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Obx(
-                      () => TextFieldWidget(
-                        hintText: 'Password',
-                        obscureText: loginController.visiblePassword.value,
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              loginController.visiblePassword.value =
-                                  !loginController.visiblePassword.value;
-                            },
-                            icon: Icon(!loginController.visiblePassword.value
-                                ? Icons.visibility
-                                : Icons.visibility_off)),
-                        keyboardType: TextInputType.visiblePassword,
-                        controller: loginController.password,
-                      ),
-                    ),
-                    Obx(
-                      () => loginController.validationErrors['password'] != null
-                          ? Text(
-                              loginController.validationErrors['password']
-                                  .toString(),
-                              style:
-                                  TextStyle(color: Colors.red, fontSize: 14.sp),
-                            )
-                          : const SizedBox(),
-                    ),
                   ],
                 ),
                 Obx(
                   () => FullButtonWidget(
-                    child: loginController.loginButtonLoading.value
+                    child: forgotPasswordController.sendEmailButtonLoading.value
                         ? const CircularProgressIndicator()
                         : Text(
-                            'Sign in',
+                            'Send Email',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.bold),
                           ),
                     onTab: () {
-                      loginController.handleLogin();
+                      forgotPasswordController.handleSendEmail();
                     },
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    InkWell(
-                      onTap: (){
-                        Get.toNamed('/register');
-                      },
-                      child: const Text('Have not an account yet?',
-                          style: TextStyle(color: Colors.grey)),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.toNamed('forgot_password');
+                    TextButton(
+                      onPressed: () {
+                        Get.toNamed('login');
                       },
                       child: const Text(
-                        'Forget password?',
-                        style: TextStyle(color: Colors.grey),
+                        'Sign In',
                       ),
                     )
                   ],

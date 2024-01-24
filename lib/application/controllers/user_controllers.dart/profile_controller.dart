@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:laraflutter/application/models/user_model.dart';
+import 'package:laraflutter/composables/error_handle.dart';
 import 'package:laraflutter/config/api.dart';
+import 'package:laraflutter/config/string_constant.dart';
 import 'package:print_color/print_color.dart';
 
 class ProfileController extends GetxController {
@@ -13,9 +17,12 @@ class ProfileController extends GetxController {
   TextEditingController countryTextEditController = TextEditingController();
   TextEditingController cityTextEditController = TextEditingController();
   TextEditingController streetTextEditController = TextEditingController();
+  var emailVerificationMessage = ''.obs;
 
   var isProfileEdit = false.obs;
   var loadingEditButton = false.obs;
+  var loadingSendVerificationEmailButton = false.obs;
+  var isEmailVerified = false.obs;
   List<Map<String, dynamic>> get textFieldDatas {
     return [
       {
@@ -61,6 +68,17 @@ class ProfileController extends GetxController {
       countryTextEditController.text = profile.value.country!;
       cityTextEditController.text = profile.value.city!;
       streetTextEditController.text = profile.value.street!;
+
+      isEmailVerified.value =
+          profile.value.emailVerifiedAt == null ? false : true;
+
+      GetStorage().remove(AppStringConstant.emailVerifiedAt);
+      GetStorage().write(
+          AppStringConstant.emailVerifiedAt,
+          profile.value.emailVerifiedAt != null
+              ? DateFormat('yyyy-MM-dd – kk:mm')
+                  .format(profile.value.emailVerifiedAt!)
+              : null);
     } on DioException catch (e) {
       Print.red(e.response);
     }
@@ -84,11 +102,33 @@ class ProfileController extends GetxController {
         'city': cityTextEditController.text,
         'street': streetTextEditController.text,
       });
+
+      Print.green(response.data);
       Get.snackbar(response.data['message'], '');
       isProfileEdit.value = false;
       loadingEditButton.value = false;
     } on DioException catch (e) {
       Print.red(e.response);
+    }
+  }
+
+  Future sendEmailVerification() async {
+    if (loadingSendVerificationEmailButton.value) {
+      return;
+    }
+
+    loadingSendVerificationEmailButton.value = true;
+    try {
+      var response = await ApiConfig(url: 'email/verification-notification')
+          .post(data: {});
+      emailVerificationMessage.value = response.data['message'].toString();
+
+      loadingSendVerificationEmailButton.value = false;
+      Get.reloadAll();
+    } on DioException catch (e) {
+      Print.green(e.response);
+      errorHandle(e.response!.data);
+      loadingSendVerificationEmailButton.value = false;
     }
   }
 

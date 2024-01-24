@@ -7,14 +7,14 @@ class LoginResponseModel {
   final String? message;
   final String? accessToken;
   final String? tokenType;
-  final DateTime? emailVerifiedAt;
+  final dynamic emailVerified;
 
   LoginResponseModel({
     this.user,
     this.message,
     this.accessToken,
     this.tokenType,
-    this.emailVerifiedAt,
+    this.emailVerified,
   });
 
   LoginResponseModel copyWith({
@@ -22,10 +22,10 @@ class LoginResponseModel {
     String? message,
     String? accessToken,
     String? tokenType,
-    DateTime? emailVerifiedAt,
+    String? emailVerified,
   }) =>
       LoginResponseModel(
-        emailVerifiedAt: emailVerifiedAt ?? this.emailVerifiedAt,
+        emailVerified: emailVerified ?? this.emailVerified,
         user: user ?? this.user,
         message: message ?? this.message,
         accessToken: accessToken ?? this.accessToken,
@@ -39,7 +39,7 @@ class LoginResponseModel {
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) =>
       LoginResponseModel(
-        emailVerifiedAt: json["email_verified_at"],
+        emailVerified: json["email_verified"],
         user: json["user"] == null ? null : UserModel.fromJson(json["user"]),
         message: json["message"],
         accessToken: json["access_token"],
@@ -49,7 +49,7 @@ class LoginResponseModel {
   Map<String, dynamic> toJson() => {
         "user": user?.toJson(),
         "message": message,
-        "email_verified_at": emailVerifiedAt,
+        "email_verified": emailVerified,
         "access_token": accessToken,
         "token_type": tokenType,
       };
