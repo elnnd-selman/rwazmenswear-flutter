@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:laraflutter/constant/colors.dart';
+import 'package:laraflutter/ui/responsive.dart';
 import 'package:laraflutter/ui/widgets/products/product_brand_list_widget.dart';
 import 'package:laraflutter/ui/widgets/products/product_categories_widget.dart';
 import 'package:laraflutter/ui/widgets/products/product_sub_categories_widget.dart';
@@ -14,7 +15,7 @@ class ProductActionWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.w),
       width: double.infinity,
-      height: 50.w,
+      height: Responsive.isMobile(context) ? 50.w : 35.w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -24,7 +25,8 @@ class ProductActionWidget extends StatelessWidget {
               height: double.infinity,
               decoration: BoxDecoration(
                   color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(20.w)),
+                  borderRadius: BorderRadius.circular(
+                      Responsive.isMobile(context) ? 20.w : 10.w)),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Row(
@@ -34,7 +36,8 @@ class ProductActionWidget extends StatelessWidget {
                     Text(
                       'Search for products...',
                       style: TextStyle(
-                          color: Colors.grey.shade500, fontSize: 12.w),
+                          color: Colors.grey.shade500,
+                          fontSize: Responsive.isMobile(context) ? 12.w : 10.w),
                     ),
                     Icon(
                       Icons.search_outlined,
@@ -46,11 +49,12 @@ class ProductActionWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 10.w,
+            width: Responsive.isMobile(context) ? 10.w : 5.w,
           ),
           InkWell(
             customBorder: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(
+                  Responsive.isMobile(context) ? 14.sp : 7.sp),
             ),
             splashColor: AppColors.primary,
             onTap: () {
@@ -62,7 +66,16 @@ class ProductActionWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          TextButton( onPressed: () {Get.back();}, child: Text('Ok',style: TextStyle(color: AppColors.primary,fontWeight: FontWeight.bold),))
+                          TextButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: Text(
+                                'Ok',
+                                style: TextStyle(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.bold),
+                              ))
                         ]),
                     const ProductBrandListWidget(),
                     const ProductCategoriesWidget(),
@@ -73,10 +86,11 @@ class ProductActionWidget extends StatelessWidget {
             },
             child: Container(
                 height: double.infinity,
-                width: 50.w,
+                width: Responsive.isMobile(context) ? 50.w : 35.w,
                 decoration: BoxDecoration(
                     color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(15.sp)),
+                    borderRadius: BorderRadius.circular(
+                        Responsive.isMobile(context) ? 15.sp : 7.5.sp)),
                 child: Icon(
                   Icons.tune_outlined,
                   color: Colors.grey.shade400,

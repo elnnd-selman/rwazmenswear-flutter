@@ -52,10 +52,10 @@ class HomeProductsWidget extends StatelessWidget {
                                         width: 220.w,
                                         height: 220.w,
                                         child: ClipRRect(
-                                                                    borderRadius: BorderRadius.circular(10.sp),
-
+                                          borderRadius:
+                                              BorderRadius.circular(10.sp),
                                           child: Image.network(
-                                            '${ApiConfig.baseUrlFile}storage/${products[index].images![0]}',
+                                            '${ApiConfig.baseUrlFile}storage/${products[index].images![0].path}',
                                             fit: BoxFit.cover,
                                           ),
                                         )),
@@ -81,7 +81,8 @@ class HomeProductsWidget extends StatelessWidget {
                                   ],
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(top: 10.w,left: 10.w,right: 10.w),
+                                  padding: EdgeInsets.only(
+                                      top: 10.w, left: 10.w, right: 10.w),
                                   child: Text(
                                     products[index].nameEn!,
                                     maxLines: 2,
@@ -94,7 +95,8 @@ class HomeProductsWidget extends StatelessWidget {
                                 SizedBox(
                                   width: double.infinity,
                                   child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10.w),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,

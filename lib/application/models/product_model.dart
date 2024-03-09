@@ -1,12 +1,4 @@
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
-
 import 'dart:convert';
-
-ProductDataModel welcomeFromJson(String str) => ProductDataModel.fromJson(json.decode(str));
-
-String welcomeToJson(ProductDataModel data) => json.encode(data.toJson());
 
 class ProductDataModel {
     final int? currentPage;
@@ -70,6 +62,10 @@ class ProductDataModel {
             total: total ?? this.total,
         );
 
+    factory ProductDataModel.fromRawJson(String str) => ProductDataModel.fromJson(json.decode(str));
+
+    String toRawJson() => json.encode(toJson());
+
     factory ProductDataModel.fromJson(Map<String, dynamic> json) => ProductDataModel(
         currentPage: json["current_page"],
         data: json["data"] == null ? [] : List<ProductModel>.from(json["data"]!.map((x) => ProductModel.fromJson(x))),
@@ -114,18 +110,20 @@ class ProductModel {
     final String? rating;
     final String? price;
     final String? discount;
-    final List<String>? images;
     final String? youtubeIframe;
     final String? instagramPostLink;
-    final List<String>? colors;
     final List<String>? sizes;
     final int? categoryId;
     final int? subcategoryId;
     final int? brandId;
+    final int? mainCategoryId;
     final DateTime? createdAt;
     final DateTime? updatedAt;
-    final Subcategory? subcategory;
+    final dynamic subCategory;
     final Category? category;
+    final Category? mainCategory;
+    final Brand? brand;
+    final List<ProductImage>? images;
 
     ProductModel({
         this.id,
@@ -138,18 +136,20 @@ class ProductModel {
         this.rating,
         this.price,
         this.discount,
-        this.images,
         this.youtubeIframe,
         this.instagramPostLink,
-        this.colors,
         this.sizes,
         this.categoryId,
         this.subcategoryId,
         this.brandId,
+        this.mainCategoryId,
         this.createdAt,
         this.updatedAt,
-        this.subcategory,
+        this.subCategory,
         this.category,
+        this.mainCategory,
+        this.brand,
+        this.images,
     });
 
     ProductModel copyWith({
@@ -163,18 +163,20 @@ class ProductModel {
         String? rating,
         String? price,
         String? discount,
-        List<String>? images,
         String? youtubeIframe,
         String? instagramPostLink,
-        List<String>? colors,
         List<String>? sizes,
         int? categoryId,
         int? subcategoryId,
         int? brandId,
+        int? mainCategoryId,
         DateTime? createdAt,
         DateTime? updatedAt,
-        Subcategory? subcategory,
+        dynamic subCategory,
         Category? category,
+        Category? mainCategory,
+        Brand? brand,
+        List<ProductImage>? images,
     }) => 
         ProductModel(
             id: id ?? this.id,
@@ -187,19 +189,25 @@ class ProductModel {
             rating: rating ?? this.rating,
             price: price ?? this.price,
             discount: discount ?? this.discount,
-            images: images ?? this.images,
             youtubeIframe: youtubeIframe ?? this.youtubeIframe,
             instagramPostLink: instagramPostLink ?? this.instagramPostLink,
-            colors: colors ?? this.colors,
             sizes: sizes ?? this.sizes,
             categoryId: categoryId ?? this.categoryId,
             subcategoryId: subcategoryId ?? this.subcategoryId,
             brandId: brandId ?? this.brandId,
+            mainCategoryId: mainCategoryId ?? this.mainCategoryId,
             createdAt: createdAt ?? this.createdAt,
             updatedAt: updatedAt ?? this.updatedAt,
-            subcategory: subcategory ?? this.subcategory,
+            subCategory: subCategory ?? this.subCategory,
             category: category ?? this.category,
+            mainCategory: mainCategory ?? this.mainCategory,
+            brand: brand ?? this.brand,
+            images: images ?? this.images,
         );
+
+    factory ProductModel.fromRawJson(String str) => ProductModel.fromJson(json.decode(str));
+
+    String toRawJson() => json.encode(toJson());
 
     factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"],
@@ -212,18 +220,20 @@ class ProductModel {
         rating: json["rating"],
         price: json["price"],
         discount: json["discount"],
-        images: json["images"] == null ? [] : List<String>.from(json["images"]!.map((x) => x)),
         youtubeIframe: json["youtube_iframe"],
         instagramPostLink: json["instagram_post_link"],
-        colors: json["colors"] == null ? [] : List<String>.from(json["colors"]!.map((x) => x)),
         sizes: json["sizes"] == null ? [] : List<String>.from(json["sizes"]!.map((x) => x)),
         categoryId: json["category_id"],
         subcategoryId: json["subcategory_id"],
         brandId: json["brand_id"],
+        mainCategoryId: json["main_category_id"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        subcategory: json["subcategory"] == null ? null : Subcategory.fromJson(json["subcategory"]),
+        subCategory: json["sub_category"],
         category: json["category"] == null ? null : Category.fromJson(json["category"]),
+        mainCategory: json["main_category"] == null ? null : Category.fromJson(json["main_category"]),
+        brand: json["brand"] == null ? null : Brand.fromJson(json["brand"]),
+        images: json["images"] == null ? [] : List<ProductImage>.from(json["images"]!.map((x) => ProductImage.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -237,18 +247,107 @@ class ProductModel {
         "rating": rating,
         "price": price,
         "discount": discount,
-        "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
         "youtube_iframe": youtubeIframe,
         "instagram_post_link": instagramPostLink,
-        "colors": colors == null ? [] : List<dynamic>.from(colors!.map((x) => x)),
         "sizes": sizes == null ? [] : List<dynamic>.from(sizes!.map((x) => x)),
         "category_id": categoryId,
         "subcategory_id": subcategoryId,
         "brand_id": brandId,
+        "main_category_id": mainCategoryId,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-        "subcategory": subcategory?.toJson(),
+        "sub_category": subCategory,
         "category": category?.toJson(),
+        "main_category": mainCategory?.toJson(),
+        "brand": brand?.toJson(),
+        "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x.toJson())),
+    };
+}
+
+class Brand {
+    final int? id;
+    final String? nameEn;
+    final String? nameAr;
+    final String? nameKu;
+    final String? contentEn;
+    final String? contentAr;
+    final String? contentKu;
+    final String? image;
+    final String? link;
+    final DateTime? createdAt;
+    final DateTime? updatedAt;
+
+    Brand({
+        this.id,
+        this.nameEn,
+        this.nameAr,
+        this.nameKu,
+        this.contentEn,
+        this.contentAr,
+        this.contentKu,
+        this.image,
+        this.link,
+        this.createdAt,
+        this.updatedAt,
+    });
+
+    Brand copyWith({
+        int? id,
+        String? nameEn,
+        String? nameAr,
+        String? nameKu,
+        String? contentEn,
+        String? contentAr,
+        String? contentKu,
+        String? image,
+        String? link,
+        DateTime? createdAt,
+        DateTime? updatedAt,
+    }) => 
+        Brand(
+            id: id ?? this.id,
+            nameEn: nameEn ?? this.nameEn,
+            nameAr: nameAr ?? this.nameAr,
+            nameKu: nameKu ?? this.nameKu,
+            contentEn: contentEn ?? this.contentEn,
+            contentAr: contentAr ?? this.contentAr,
+            contentKu: contentKu ?? this.contentKu,
+            image: image ?? this.image,
+            link: link ?? this.link,
+            createdAt: createdAt ?? this.createdAt,
+            updatedAt: updatedAt ?? this.updatedAt,
+        );
+
+    factory Brand.fromRawJson(String str) => Brand.fromJson(json.decode(str));
+
+    String toRawJson() => json.encode(toJson());
+
+    factory Brand.fromJson(Map<String, dynamic> json) => Brand(
+        id: json["id"],
+        nameEn: json["name_en"],
+        nameAr: json["name_ar"],
+        nameKu: json["name_ku"],
+        contentEn: json["content_en"],
+        contentAr: json["content_ar"],
+        contentKu: json["content_ku"],
+        image: json["image"],
+        link: json["link"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "name_en": nameEn,
+        "name_ar": nameAr,
+        "name_ku": nameKu,
+        "content_en": contentEn,
+        "content_ar": contentAr,
+        "content_ku": contentKu,
+        "image": image,
+        "link": link,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
     };
 }
 
@@ -257,6 +356,7 @@ class Category {
     final String? nameEn;
     final String? nameAr;
     final String? nameKu;
+    final int? mainCategoryModelId;
     final DateTime? createdAt;
     final DateTime? updatedAt;
 
@@ -265,6 +365,7 @@ class Category {
         this.nameEn,
         this.nameAr,
         this.nameKu,
+        this.mainCategoryModelId,
         this.createdAt,
         this.updatedAt,
     });
@@ -274,6 +375,7 @@ class Category {
         String? nameEn,
         String? nameAr,
         String? nameKu,
+        int? mainCategoryModelId,
         DateTime? createdAt,
         DateTime? updatedAt,
     }) => 
@@ -282,15 +384,21 @@ class Category {
             nameEn: nameEn ?? this.nameEn,
             nameAr: nameAr ?? this.nameAr,
             nameKu: nameKu ?? this.nameKu,
+            mainCategoryModelId: mainCategoryModelId ?? this.mainCategoryModelId,
             createdAt: createdAt ?? this.createdAt,
             updatedAt: updatedAt ?? this.updatedAt,
         );
+
+    factory Category.fromRawJson(String str) => Category.fromJson(json.decode(str));
+
+    String toRawJson() => json.encode(toJson());
 
     factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],
         nameEn: json["name_en"],
         nameAr: json["name_ar"],
         nameKu: json["name_ku"],
+        mainCategoryModelId: json["main_category_model_id"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     );
@@ -300,77 +408,76 @@ class Category {
         "name_en": nameEn,
         "name_ar": nameAr,
         "name_ku": nameKu,
+        "main_category_model_id": mainCategoryModelId,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
     };
 }
 
-class Subcategory {
+class ProductImage {
     final int? id;
-    final int? categoryId;
-    final String? nameEn;
-    final String? nameAr;
-    final String? nameKu;
-    final String? image;
-    final String? backgroundImage;
+    final int? productId;
+    final String? path;
+    final String? colorEn;
+    final String? colorAr;
+    final String? colorKu;
     final DateTime? createdAt;
     final DateTime? updatedAt;
 
-    Subcategory({
+    ProductImage({
         this.id,
-        this.categoryId,
-        this.nameEn,
-        this.nameAr,
-        this.nameKu,
-        this.image,
-        this.backgroundImage,
+        this.productId,
+        this.path,
+        this.colorEn,
+        this.colorAr,
+        this.colorKu,
         this.createdAt,
         this.updatedAt,
     });
 
-    Subcategory copyWith({
+    ProductImage copyWith({
         int? id,
-        int? categoryId,
-        String? nameEn,
-        String? nameAr,
-        String? nameKu,
-        String? image,
-        String? backgroundImage,
+        int? productId,
+        String? path,
+        String? colorEn,
+        String? colorAr,
+        String? colorKu,
         DateTime? createdAt,
         DateTime? updatedAt,
     }) => 
-        Subcategory(
+        ProductImage(
             id: id ?? this.id,
-            categoryId: categoryId ?? this.categoryId,
-            nameEn: nameEn ?? this.nameEn,
-            nameAr: nameAr ?? this.nameAr,
-            nameKu: nameKu ?? this.nameKu,
-            image: image ?? this.image,
-            backgroundImage: backgroundImage ?? this.backgroundImage,
+            productId: productId ?? this.productId,
+            path: path ?? this.path,
+            colorEn: colorEn ?? this.colorEn,
+            colorAr: colorAr ?? this.colorAr,
+            colorKu: colorKu ?? this.colorKu,
             createdAt: createdAt ?? this.createdAt,
             updatedAt: updatedAt ?? this.updatedAt,
         );
 
-    factory Subcategory.fromJson(Map<String, dynamic> json) => Subcategory(
+    factory ProductImage.fromRawJson(String str) => ProductImage.fromJson(json.decode(str));
+
+    String toRawJson() => json.encode(toJson());
+
+    factory ProductImage.fromJson(Map<String, dynamic> json) => ProductImage(
         id: json["id"],
-        categoryId: json["category_id"],
-        nameEn: json["name_en"],
-        nameAr: json["name_ar"],
-        nameKu: json["name_ku"],
-        image: json["image"],
-        backgroundImage: json["background_image"],
+        productId: json["product_id"],
+        path: json["path"],
+        colorEn: json["color_en"],
+        colorAr: json["color_ar"],
+        colorKu: json["color_ku"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "category_id": categoryId,
-        "name_en": nameEn,
-        "name_ar": nameAr,
-        "name_ku": nameKu,
-        "image": image,
-        "background_image": backgroundImage,
+        "product_id": productId,
+        "path": path,
+        "color_en": colorEn,
+        "color_ar": colorAr,
+        "color_ku": colorKu,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
     };
@@ -397,6 +504,10 @@ class Link {
             label: label ?? this.label,
             active: active ?? this.active,
         );
+
+    factory Link.fromRawJson(String str) => Link.fromJson(json.decode(str));
+
+    String toRawJson() => json.encode(toJson());
 
     factory Link.fromJson(Map<String, dynamic> json) => Link(
         url: json["url"],

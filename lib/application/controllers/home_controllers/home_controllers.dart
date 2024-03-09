@@ -4,6 +4,7 @@ import 'package:laraflutter/application/models/offer_model.dart';
 import 'package:laraflutter/application/models/product_model.dart';
 import 'package:laraflutter/application/models/rek_model.dart';
 import 'package:laraflutter/config/api.dart';
+import 'package:print_color/print_color.dart';
 
 class HomeController extends GetxController {
   //REK
@@ -18,6 +19,7 @@ class HomeController extends GetxController {
   Rx<ProductDataModel> productData = ProductDataModel().obs;
   productIndex() async {
     var response = await ApiConfig(url: 'productapi').get();
+    Print.green(response);
     productData.value =
         ProductDataModel.fromJson(response.data as Map<String, dynamic>);
   }

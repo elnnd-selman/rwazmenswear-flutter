@@ -18,10 +18,13 @@ dependencies:
   dio: ^5.4.0
   dio_cache_interceptor: ^3.5.0
   carousel_slider: ^4.2.1
-  intl: ^0.19.0
+  intl: ^0.18.1
   flutter_screenutil: ^5.9.0
   get_storage: ^2.1.1
   country_picker: ^2.0.23
+  device_preview: ^1.1.0
+  iconify_flutter: ^0.0.5
+
 
 dev_dependencies:
   flutter_test:

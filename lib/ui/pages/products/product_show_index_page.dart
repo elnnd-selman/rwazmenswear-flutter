@@ -7,13 +7,13 @@ import 'package:laraflutter/application/controllers/product_controllers/product_
 import 'package:laraflutter/config/api.dart';
 import 'package:laraflutter/constant/colors.dart';
 import 'package:laraflutter/ui/layouts/page_navbar_layout.dart';
+import 'package:print_color/print_color.dart';
 
 class ProductsShowIndexPage extends StatelessWidget {
   const ProductsShowIndexPage({super.key});
   @override
   Widget build(BuildContext context) {
     ProductShowController productController = Get.find();
-
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -158,7 +158,7 @@ class ProductsShowIndexPage extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.sp),
               child: Image.network(
-                  '${ApiConfig.baseUrlFile}/storage/${productController.selectedImage.value.isEmpty ? productController.productShowData.value.product!.images![0] : productController.selectedImage.value}'),
+                  '${ApiConfig.baseUrlFile}/storage/${productController.selectedImage.value.isEmpty ? productController.productShowData.value.product!.images![0].path : productController.selectedImage.value}'),
             ),
           ),
           Expanded(
@@ -175,7 +175,8 @@ class ProductsShowIndexPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.sp),
                                   border:
-                                      productController.selectedImage.value != e
+                                      productController.selectedImage.value !=
+                                              e.path
                                           ? Border.all(
                                               width: 5.sp,
                                               color: Colors.transparent)
@@ -184,12 +185,13 @@ class ProductsShowIndexPage extends StatelessWidget {
                                               color: AppColors.primary)),
                               child: InkWell(
                                 onTap: () {
-                                  productController.selectedImage.value = e;
+                                  productController.selectedImage.value =
+                                      e.path!;
                                 },
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10.sp),
                                   child: Image.network(
-                                    '${ApiConfig.baseUrlFile}/storage/$e',
+                                    '${ApiConfig.baseUrlFile}/storage/${e.path}',
                                     fit: BoxFit.cover,
                                   ),
                                 ),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:laraflutter/application/controllers/auth_controllers.dart/forgot_password_controller.dart';
-import 'package:laraflutter/application/controllers/auth_controllers.dart/login_controller.dart';
 import 'package:laraflutter/constant/colors.dart';
 import 'package:laraflutter/constant/images.dart';
 import 'package:laraflutter/ui/widgets/home/full_button_widget.dart';

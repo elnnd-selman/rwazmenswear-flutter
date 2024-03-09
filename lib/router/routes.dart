@@ -21,6 +21,8 @@ List<GetPage> appRoutes = [
     transition: Transition.size,
     transitionDuration: const Duration(milliseconds: 300),
     bindings: [
+            CartBinding(),
+
       HomeBinding(),
       ProductBinding(),
       IndexBinding(),

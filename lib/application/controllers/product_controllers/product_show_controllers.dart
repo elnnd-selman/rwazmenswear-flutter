@@ -1,11 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:laraflutter/application/models/product_show_model.dart';
 import 'package:laraflutter/composables/error_handle.dart';
 import 'package:laraflutter/config/api.dart';
-import 'package:laraflutter/config/string_constant.dart';
 import 'package:print_color/print_color.dart';
 
 class ProductShowController extends GetxController {
@@ -27,10 +25,8 @@ class ProductShowController extends GetxController {
   ) async {
     try {
       productsIsLoading.value = true;
-
       var response = await ApiConfig(url: 'productapi/$id').get();
-      Print.green(GetStorage().read(AppStringConstant.accessToken));
-      Print.green(response.data);
+      Print.cyan(response.data);
       productShowData.value = ProductShowDataModel.fromJson(response.data);
       productsIsLoading.value = false;
     } on DioException catch (e) {
