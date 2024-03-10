@@ -1,101 +1,65 @@
 import 'dart:convert';
 
-class CategoryDataModel {
-    final int? currentPage;
-    final List<CategoryModel>? data;
-    final String? firstPageUrl;
-    final int? from;
-    final int? lastPage;
-    final String? lastPageUrl;
-    final List<Link>? links;
-    final dynamic nextPageUrl;
-    final String? path;
-    final int? perPage;
-    final dynamic prevPageUrl;
-    final int? to;
-    final int? total;
+class MainCategoryModel {
+    final int? id;
+    final String? nameEn;
+    final String? nameAr;
+    final String? nameKu;
+    final DateTime? createdAt;
+    final DateTime? updatedAt;
+    final List<CategoryModel>? categories;
 
-    CategoryDataModel({
-        this.currentPage,
-        this.data,
-        this.firstPageUrl,
-        this.from,
-        this.lastPage,
-        this.lastPageUrl,
-        this.links,
-        this.nextPageUrl,
-        this.path,
-        this.perPage,
-        this.prevPageUrl,
-        this.to,
-        this.total,
+    MainCategoryModel({
+        this.id,
+        this.nameEn,
+        this.nameAr,
+        this.nameKu,
+        this.createdAt,
+        this.updatedAt,
+        this.categories,
     });
 
-    CategoryDataModel copyWith({
-        int? currentPage,
-        List<CategoryModel>? data,
-        String? firstPageUrl,
-        int? from,
-        int? lastPage,
-        String? lastPageUrl,
-        List<Link>? links,
-        dynamic nextPageUrl,
-        String? path,
-        int? perPage,
-        dynamic prevPageUrl,
-        int? to,
-        int? total,
+    MainCategoryModel copyWith({
+        int? id,
+        String? nameEn,
+        String? nameAr,
+        String? nameKu,
+        DateTime? createdAt,
+        DateTime? updatedAt,
+        List<CategoryModel>? categories,
     }) => 
-        CategoryDataModel(
-            currentPage: currentPage ?? this.currentPage,
-            data: data ?? this.data,
-            firstPageUrl: firstPageUrl ?? this.firstPageUrl,
-            from: from ?? this.from,
-            lastPage: lastPage ?? this.lastPage,
-            lastPageUrl: lastPageUrl ?? this.lastPageUrl,
-            links: links ?? this.links,
-            nextPageUrl: nextPageUrl ?? this.nextPageUrl,
-            path: path ?? this.path,
-            perPage: perPage ?? this.perPage,
-            prevPageUrl: prevPageUrl ?? this.prevPageUrl,
-            to: to ?? this.to,
-            total: total ?? this.total,
+        MainCategoryModel(
+            id: id ?? this.id,
+            nameEn: nameEn ?? this.nameEn,
+            nameAr: nameAr ?? this.nameAr,
+            nameKu: nameKu ?? this.nameKu,
+            createdAt: createdAt ?? this.createdAt,
+            updatedAt: updatedAt ?? this.updatedAt,
+            categories: categories ?? this.categories,
         );
 
-    factory CategoryDataModel.fromRawJson(String str) => CategoryDataModel.fromJson(json.decode(str));
+    factory MainCategoryModel.fromRawJson(String str) => MainCategoryModel.fromJson(json.decode(str));
 
     String toRawJson() => json.encode(toJson());
 
-    factory CategoryDataModel.fromJson(Map<String, dynamic> json) => CategoryDataModel(
-        currentPage: json["current_page"],
-        data: json["data"] == null ? [] : List<CategoryModel>.from(json["data"]!.map((x) => CategoryModel.fromJson(x))),
-        firstPageUrl: json["first_page_url"],
-        from: json["from"],
-        lastPage: json["last_page"],
-        lastPageUrl: json["last_page_url"],
-        links: json["links"] == null ? [] : List<Link>.from(json["links"]!.map((x) => Link.fromJson(x))),
-        nextPageUrl: json["next_page_url"],
-        path: json["path"],
-        perPage: json["per_page"],
-        prevPageUrl: json["prev_page_url"],
-        to: json["to"],
-        total: json["total"],
+    factory MainCategoryModel.fromJson(Map<String, dynamic> json) => MainCategoryModel(
+        id: json["id"],
+        nameEn: json["name_en"],
+        nameAr: json["name_ar"],
+        nameKu: json["name_ku"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        categories: json["categories"] == null ? [] : List<CategoryModel>.from(json["categories"]!.map((x) => CategoryModel.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "current_page": currentPage,
-        "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
-        "first_page_url": firstPageUrl,
-        "from": from,
-        "last_page": lastPage,
-        "last_page_url": lastPageUrl,
-        "links": links == null ? [] : List<dynamic>.from(links!.map((x) => x.toJson())),
-        "next_page_url": nextPageUrl,
-        "path": path,
-        "per_page": perPage,
-        "prev_page_url": prevPageUrl,
-        "to": to,
-        "total": total,
+        "id": id,
+        "name_en": nameEn,
+        "name_ar": nameAr,
+        "name_ku": nameKu,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "categories": categories == null ? [] : List<dynamic>.from(categories!.map((x) => x.toJson())),
     };
 }
 
@@ -104,18 +68,22 @@ class CategoryModel {
     final String? nameEn;
     final String? nameAr;
     final String? nameKu;
+    final int? mainCategoryModelsId;
     final DateTime? createdAt;
     final DateTime? updatedAt;
-    final List<SubcategoryModel>? subcategories;
+    final List<SubCategoryModel>? subCategories;
+    final int? mainCategoryModelId;
 
     CategoryModel({
         this.id,
         this.nameEn,
         this.nameAr,
         this.nameKu,
+        this.mainCategoryModelsId,
         this.createdAt,
         this.updatedAt,
-        this.subcategories,
+        this.subCategories,
+        this.mainCategoryModelId,
     });
 
     CategoryModel copyWith({
@@ -123,18 +91,22 @@ class CategoryModel {
         String? nameEn,
         String? nameAr,
         String? nameKu,
+        int? mainCategoryModelsId,
         DateTime? createdAt,
         DateTime? updatedAt,
-        List<SubcategoryModel>? subcategories,
+        List<SubCategoryModel>? subCategories,
+        int? mainCategoryModelId,
     }) => 
         CategoryModel(
             id: id ?? this.id,
             nameEn: nameEn ?? this.nameEn,
             nameAr: nameAr ?? this.nameAr,
             nameKu: nameKu ?? this.nameKu,
+            mainCategoryModelsId: mainCategoryModelsId ?? this.mainCategoryModelsId,
             createdAt: createdAt ?? this.createdAt,
             updatedAt: updatedAt ?? this.updatedAt,
-            subcategories: subcategories ?? this.subcategories,
+            subCategories: subCategories ?? this.subCategories,
+            mainCategoryModelId: mainCategoryModelId ?? this.mainCategoryModelId,
         );
 
     factory CategoryModel.fromRawJson(String str) => CategoryModel.fromJson(json.decode(str));
@@ -146,9 +118,11 @@ class CategoryModel {
         nameEn: json["name_en"],
         nameAr: json["name_ar"],
         nameKu: json["name_ku"],
+        mainCategoryModelsId: json["main_category_models_id"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        subcategories: json["subcategories"] == null ? [] : List<SubcategoryModel>.from(json["subcategories"]!.map((x) => SubcategoryModel.fromJson(x))),
+        subCategories: json["sub_categories"] == null ? [] : List<SubCategoryModel>.from(json["sub_categories"]!.map((x) => SubCategoryModel.fromJson(x))),
+        mainCategoryModelId: json["main_category_model_id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -156,13 +130,15 @@ class CategoryModel {
         "name_en": nameEn,
         "name_ar": nameAr,
         "name_ku": nameKu,
+        "main_category_models_id": mainCategoryModelsId,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-        "subcategories": subcategories == null ? [] : List<dynamic>.from(subcategories!.map((x) => x.toJson())),
+        "sub_categories": subCategories == null ? [] : List<dynamic>.from(subCategories!.map((x) => x.toJson())),
+        "main_category_model_id": mainCategoryModelId,
     };
 }
 
-class SubcategoryModel {
+class SubCategoryModel {
     final int? id;
     final int? categoryId;
     final String? nameEn;
@@ -173,7 +149,7 @@ class SubcategoryModel {
     final DateTime? createdAt;
     final DateTime? updatedAt;
 
-    SubcategoryModel({
+    SubCategoryModel({
         this.id,
         this.categoryId,
         this.nameEn,
@@ -185,7 +161,7 @@ class SubcategoryModel {
         this.updatedAt,
     });
 
-    SubcategoryModel copyWith({
+    SubCategoryModel copyWith({
         int? id,
         int? categoryId,
         String? nameEn,
@@ -196,7 +172,7 @@ class SubcategoryModel {
         DateTime? createdAt,
         DateTime? updatedAt,
     }) => 
-        SubcategoryModel(
+        SubCategoryModel(
             id: id ?? this.id,
             categoryId: categoryId ?? this.categoryId,
             nameEn: nameEn ?? this.nameEn,
@@ -208,11 +184,11 @@ class SubcategoryModel {
             updatedAt: updatedAt ?? this.updatedAt,
         );
 
-    factory SubcategoryModel.fromRawJson(String str) => SubcategoryModel.fromJson(json.decode(str));
+    factory SubCategoryModel.fromRawJson(String str) => SubCategoryModel.fromJson(json.decode(str));
 
     String toRawJson() => json.encode(toJson());
 
-    factory SubcategoryModel.fromJson(Map<String, dynamic> json) => SubcategoryModel(
+    factory SubCategoryModel.fromJson(Map<String, dynamic> json) => SubCategoryModel(
         id: json["id"],
         categoryId: json["category_id"],
         nameEn: json["name_en"],
@@ -234,44 +210,5 @@ class SubcategoryModel {
         "background_image": backgroundImage,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-    };
-}
-
-class Link {
-    final String? url;
-    final String? label;
-    final bool? active;
-
-    Link({
-        this.url,
-        this.label,
-        this.active,
-    });
-
-    Link copyWith({
-        String? url,
-        String? label,
-        bool? active,
-    }) => 
-        Link(
-            url: url ?? this.url,
-            label: label ?? this.label,
-            active: active ?? this.active,
-        );
-
-    factory Link.fromRawJson(String str) => Link.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory Link.fromJson(Map<String, dynamic> json) => Link(
-        url: json["url"],
-        label: json["label"],
-        active: json["active"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "url": url,
-        "label": label,
-        "active": active,
     };
 }

@@ -9,11 +9,14 @@ import 'package:print_color/print_color.dart';
 class ProductController extends GetxController {
   var productsIsLoading = true.obs;
   var productsNextPageIsLoading = false.obs;
+    TextEditingController searchQuery = TextEditingController();
 
+  Rx<dynamic> selectedMainCategoryId = ''.obs;
   Rx<dynamic> selectedCategoryId = ''.obs;
   Rx<dynamic> selectedSubCategoryId = ''.obs;
 
   Rx<dynamic> selectedBrandId = ''.obs;
+  Rx<MainCategoryModel> selectedMainCategory = MainCategoryModel().obs;
 
   Rx<CategoryModel> selectedCategory = CategoryModel().obs;
 
@@ -25,12 +28,14 @@ class ProductController extends GetxController {
   Rx<ProductDataModel> productData = ProductDataModel().obs;
   productIndex(
       {String? categoryId,
+      String? mainCategoryId,
       String? page,
       String? brandId,
+      String? search,
       String? subCategoryId}) async {
     var response = await ApiConfig(
             url:
-                'productapi?${page != null ? 'page=$page' : 'page=1'}${categoryId != null ? '&category_id=$categoryId' : ""}${subCategoryId != null ? '&subcategory_id=$subCategoryId' : ""}${brandId != null ? "&brand_id=$brandId" : ""}')
+                'productapi?${page != null ? 'page=$page' : 'page=1'}${search != null ? '&search=$search' : ""}${mainCategoryId != null ? '&main_category_id=$mainCategoryId' : ""}${categoryId != null ? '&category_id=$categoryId' : ""}${subCategoryId != null ? '&sub_category_id=$subCategoryId' : ""}${brandId != null ? "&brand_id=$brandId" : ""}')
         .get();
 
     productData.value =
@@ -56,8 +61,10 @@ class ProductController extends GetxController {
     productsIsLoading.value = true;
     selectedBrandId.value = brandId ?? "";
     productIndex(
-        brandId: brandId,
+        mainCategoryId: selectedMainCategoryId.value,
         categoryId: selectedCategoryId.value,
+        subCategoryId: selectedSubCategoryId.value,
+        brandId: brandId,
         page: page.value.toString());
   }
 
@@ -76,25 +83,29 @@ class ProductController extends GetxController {
     productsNextPageIsLoading.value = false;
   }
 
-//CATEGORIES
-  Rx<CategoryDataModel> categoryData = CategoryDataModel().obs;
-  categoriesIndex() async {
-    var response = await ApiConfig(url: 'categoriesapi').get();
-    categoryData.value =
-        CategoryDataModel.fromJson(response.data as Map<String, dynamic>);
+//MAIN CATEGORIES
+  var mainCategoriesData = [].obs;
+  mainCategoriesIndex() async {
+    var response = await ApiConfig(url: 'main-categoriesapi').get();
+    List datas = response.data as List;
+    mainCategoriesData.value = datas
+        .map((e) => MainCategoryModel.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   onSubCategoryChange(
-    SubcategoryModel? subcategory,
+    SubCategoryModel? subcategory,
   ) {
     page.value = 1;
     productsIsLoading.value = true;
     selectedSubCategoryId.value =
         subcategory != null ? subcategory.id.toString() : "";
     productIndex(
-        categoryId: selectedCategoryId.value,
-        brandId: selectedBrandId.value,
-        subCategoryId: selectedSubCategoryId.value);
+      mainCategoryId: selectedMainCategoryId.value,
+      categoryId: selectedCategoryId.value,
+      subCategoryId: selectedSubCategoryId.value,
+      brandId: selectedBrandId.value,
+    );
   }
 
   onCategoryChange(
@@ -105,7 +116,42 @@ class ProductController extends GetxController {
     selectedCategoryId.value = category != null ? category.id.toString() : "";
     selectedCategory.value = category ?? CategoryModel();
     productIndex(
-        categoryId: selectedCategoryId.value, brandId: selectedBrandId.value);
+      mainCategoryId: selectedMainCategoryId.value,
+      categoryId: selectedCategoryId.value,
+      brandId: selectedBrandId.value,
+    );
+  }
+
+  onMainCategoryChange(
+    MainCategoryModel? mainCategory,
+  ) {
+    page.value = 1;
+    productsIsLoading.value = true;
+    selectedMainCategoryId.value =
+        mainCategory != null ? mainCategory.id.toString() : "";
+    selectedCategory.value = CategoryModel();
+
+    selectedCategoryId.value = '';
+    selectedSubCategoryId.value = '';
+
+    selectedMainCategory.value = mainCategory ?? MainCategoryModel();
+    productIndex(
+      mainCategoryId: selectedMainCategoryId.value,
+      brandId: selectedBrandId.value,
+    );
+  }
+
+//SEARCH
+  onSearch(String searchQuery) {
+    page.value = 1;
+    productsIsLoading.value = true;
+    productIndex(
+        mainCategoryId: selectedMainCategoryId.value,
+        categoryId: selectedCategoryId.value,
+        subCategoryId: selectedSubCategoryId.value,
+        brandId: selectedBrandId.value,
+        search: searchQuery,
+        page: page.value.toString());
   }
 
   onPageChange() {
@@ -119,7 +165,7 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     productIndex();
-    categoriesIndex();
+    mainCategoriesIndex();
     brandIndex();
     productScrollController.addListener(() {
       if (productScrollController.position.pixels >=

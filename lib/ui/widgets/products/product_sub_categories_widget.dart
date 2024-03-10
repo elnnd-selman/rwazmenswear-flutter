@@ -11,7 +11,7 @@ class ProductSubCategoriesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProductController productController = Get.find();
-    return Obx(() => productController.selectedCategory.value.subcategories ==
+    return Obx(() => productController.selectedCategory.value.subCategories ==
             null
         ? const SizedBox()
         : Column(
@@ -24,7 +24,7 @@ class ProductSubCategoriesWidget extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
                   child: Text(
-                    'Categories',
+                    'Sub Categories',
                     style:
                         TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
                   ),
@@ -48,7 +48,8 @@ class ProductSubCategoriesWidget extends StatelessWidget {
                                       EdgeInsets.symmetric(horizontal: 10.w),
                                   decoration: BoxDecoration(
                                       color: productController
-                                                  .selectedSubCategoryId.value ==
+                                                  .selectedSubCategoryId
+                                                  .value ==
                                               ""
                                           ? AppColors.primary
                                           : Colors.grey.shade200,
@@ -71,9 +72,9 @@ class ProductSubCategoriesWidget extends StatelessWidget {
                             )),
                         ...List.generate(
                             productController.selectedCategory.value
-                                .subcategories!.length, (index) {
-                          SubcategoryModel subcategory = productController
-                              .selectedCategory.value.subcategories![index];
+                                .subCategories!.length, (index) {
+                          SubCategoryModel subcategory = productController
+                              .selectedCategory.value.subCategories![index];
                           return Obx(
                             () => Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10.w),
